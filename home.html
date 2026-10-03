@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macelleria Salumeria Vicarelli Vincenzo</title>
+    <meta name="description" content="Macelleria e Salumeria artigianale. Tradizione, qualità e passione per le carni e i prodotti tipici.">
+    
+    <!-- Google Fonts: Playfair Display (elegante/rustico per i titoli) e Inter (moderno e pulito per il testo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">    
+    <!-- FontAwesome per le icone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'burgundy': '#7a1921', // Rosso bordeaux per accenti
+                        'charcoal': '#2d2d2d', // Grigio scuro/nero carbone
+                        'cream': '#fdfbf7',    // Bianco sporco/crema per sfondi caldi
+                    },
+                    fontFamily: {
+                        'heading': ['"Playfair Display"', 'serif'],
+                        'body': ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Stili extra per overlay ed effetti */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(45, 45, 45, 0.7), rgba(45, 45, 45, 0.7)), url('https://images.unsplash.com/photo-1603048297172-c92544798d5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            filter: blur(8px);
+            transform: scale(1.05); /* Evita i bordi bianchi causati dalla sfocatura */
+            z-index: -1;
+        }
+
+        /* Compensa l'altezza della navbar fissa durante lo scroll */
+        section {
+            scroll-margin-top: 5rem;
+        }
+    </style>
+</head>
+<body class="bg-cream text-charcoal antialiased">
+
+    <!-- NAVBAR FISSA -->
+    <nav class="bg-charcoal text-white fixed w-full z-50 top-0 shadow-lg border-b-4 border-burgundy transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo / Titolo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#home" class="flex items-center gap-2 md:gap-3 group">
+                        <div class="flex flex-col text-right">
+                            <span class="font-body text-[0.55rem] md:text-xs tracking-[0.15em] uppercase text-gray-300 group-hover:text-gray-100 transition leading-tight">Macelleria Salumeria</span>
+                            <span class="font-heading text-sm sm:text-base md:text-xl font-bold tracking-wider leading-tight text-white group-hover:text-burgundy transition">Vicarelli Vincenzo</span>
+                        </div>
+                        <div class="h-6 md:h-8 border-l-2 border-burgundy opacity-80"></div>
+                        <span class="font-heading italic text-burgundy text-sm md:text-lg whitespace-nowrap">dal 1990</span>
+                    </a>
+                </div>
+                
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="hover:text-burgundy transition font-medium">Home</a>
+                    <a href="#chi-siamo" class="hover:text-burgundy transition font-medium">Chi Siamo</a>
+                    <a href="#prodotti" class="hover:text-burgundy transition font-medium">I Nostri Prodotti</a>
+                    <a href="#contatti" class="bg-burgundy text-white px-5 py-2 rounded-md hover:bg-red-800 transition font-medium">Contatti</a>
+                </div>
+
+                <!-- Bottone Menu Mobile (Hamburger) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white hover:text-burgundy focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobile (Nascosto di default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-charcoal border-t border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+                <a href="#home" class="mobile-link block px-3 py-2 hover:bg-burgundy transition rounded-md">Home</a>
+                <a href="#chi-siamo" class="mobile-link block px-3 py-2 hover:bg-burgundy transition rounded-md">Chi Siamo</a>
+                <a href="#prodotti" class="mobile-link block px-3 py-2 hover:bg-burgundy transition rounded-md">Prodotti</a>
+                <a href="#contatti" class="mobile-link block px-3 py-2 bg-burgundy mt-2 transition rounded-md">Contatti</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. HERO SECTION (HOME) -->
+    <header id="home" class="hero-bg h-screen flex items-center justify-center pt-20">
+        <div class="text-center px-4 max-w-6xl mx-auto text-white flex flex-col items-center">
+            
+            <!-- BLOCCO LOGO GIGANTE -->
+            <!-- Aggiunto items-stretch per far sì che la linea sia dinamica e segua l'altezza -->
+            <div class="flex items-stretch justify-center gap-4 md:gap-8 mb-10 w-full">
+                
+                <!-- Parte Sinistra -->
+                <div class="flex flex-col text-right justify-between py-1">
+                    <span class="font-body text-sm md:text-xl lg:text-3xl tracking-[0.2em] uppercase text-gray-300 drop-shadow-md leading-none mb-3">
+                        Macelleria Salumeria
+                    </span>
+                    <span class="font-heading text-5xl sm:text-6xl md:text-8xl lg:text-8xl font-bold leading-none text-white drop-shadow-lg">
+                        Vicarelli Vincenzo
+                    </span>
+                    <!-- Rimossi <br> e mb-10 per evitare che la riga rossa "scenda" a vuoto. Spazio gestito con mt-4 -->
+                    <p class="text-xl md:text-2xl lg:text-2xl mt-4 font-light drop-shadow-md max-w-3xl self-end leading-tight">
+                        L'eccellenza delle carni e la tradizione dei salumi artigianali toscani
+                    </p>
+                </div>
+                
+                <!-- Linea Verticale Dinamica -->
+                <!-- Rimossi h-20/h-48. self-stretch dice alla linea "diventa alta esattamente quanto il blocco di sinistra" -->
+                <div class="border-l-4 border-burgundy opacity-90 drop-shadow-lg self-stretch"></div>
+                
+                <!-- Parte Destra -->
+                <!-- Avvolto in un flex items-center per ancorarlo al centro verticale -->
+                <div class="flex items-center">
+                    <span class="font-heading italic text-burgundy text-2xl sm:text-4xl md:text-5xl lg:text-6xl whitespace-nowrap drop-shadow-lg">
+                        dal 1990
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Bottoni -->
+            <!-- Aggiunto mt-4 per compensare la rimozione del margine dal paragrafo sopra -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto mt-4">
+                <a href="#prodotti" class="bg-burgundy text-white px-8 py-4 rounded hover:bg-red-800 transition text-lg uppercase tracking-wider font-semibold shadow-lg">
+                    Scopri i Prodotti
+                </a>
+                <a href="#contatti" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded hover:bg-white hover:text-charcoal transition text-lg uppercase tracking-wider font-semibold shadow-lg">
+                    Vieni a Trovarci
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. CHI SIAMO -->
+    <section id="chi-siamo" class="py-20 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <!-- Immagine Chi Siamo -->
+                <div class="w-full lg:w-1/2">
+                    <img src="foto_con_nonno.jpg" 
+                         alt="Macellaio al lavoro" 
+                         class="rounded-lg shadow-2xl border-4 border-white">
+                </div>
+                <!-- Testo Chi Siamo -->
+                <div class="w-full lg:w-1/2">
+                    <h3 class="text-burgundy font-heading italic text-xl mb-2">La Nostra Storia</h3>
+                    <h2 class="font-heading text-4xl font-bold text-charcoal mb-6">Passione di Famiglia</h2>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        Da oltre <strong>35 anni</strong> ci dedichiamo con amore e dedizione alla selezione delle migliori carni locali e nazionali. 
+                        Il nostro obiettivo è portare sulle vostre tavole la <strong>ciccia bona</strong>. Rispettiamo i tempi della frollatura e diamo consigli su come usare i tagli classici nelle vostre ricette.
+                    </p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        La nostra salumeria vanta un'accurata selezione di <strong>salumi di nostra produzione</strong> e formaggi del territorio.
+                    </p>
+                    <div class="flex items-center gap-4 mt-8">
+                        <div class="bg-burgundy text-white p-4 rounded-full">
+                            <i class="fas fa-medal text-2xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading font-bold text-xl">Salsiccia Fresca</h4>
+                            <p class="text-sm text-gray-600">Siamo famosi per la nostra salsiccia venduta al metro che facciamo giornalmente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. I NOSTRI PRODOTTI -->
+    <section id="prodotti" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-burgundy font-heading italic text-xl mb-2">Le Nostre Specialità</h3>
+                <h2 class="font-heading text-4xl font-bold text-charcoal">I Nostri Prodotti</h2>
+                <div class="w-24 h-1 bg-burgundy mx-auto mt-4"></div>
+            </div>
+
+            <!-- Griglia Prodotti -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Card 1: Carne -->
+                <div class="bg-cream rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1607623814075-e51df1bd682f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Carni Fresche" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 text-center border-t-4 border-burgundy">
+                        <h4 class="font-heading text-2xl font-bold text-charcoal mb-3">Carni Scelte</h4>
+                        <p class="text-gray-600 text-sm">Tagli pregiati di bovino, suino e pollame. Selezioniamo solo carni provenienti da allevamenti sicuri e certificati per garantirvi tenerezza e sapore.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Salumi -->
+                <div class="bg-cream rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1542307525-2e6b01b69dfc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Salumi Artigianali" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 text-center border-t-4 border-burgundy">
+                        <h4 class="font-heading text-2xl font-bold text-charcoal mb-3">Salumi Nostrani</h4>
+                        <p class="text-gray-600 text-sm">Prosciutti stagionati, salami artigianali, pancette e guanciali. I veri sapori della tradizione norcina italiana.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Formaggi -->
+                <div class="bg-cream rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Formaggi Tipici" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 text-center border-t-4 border-burgundy">
+                        <h4 class="font-heading text-2xl font-bold text-charcoal mb-3">Formaggi Tipici</h4>
+                        <p class="text-gray-600 text-sm">Una ricca selezione di pecorini, caciocavalli, mozzarelle fresche e formaggi stagionati da accompagnare ai nostri salumi.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Pronto Cuoci -->
+                <div class="bg-cream rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 group">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1558030006-450675393462?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                             alt="Pronto Cuoci" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <div class="p-6 text-center border-t-4 border-burgundy">
+                        <h4 class="font-heading text-2xl font-bold text-charcoal mb-3">Pronto Cuoci</h4>
+                        <p class="text-gray-600 text-sm">Spiedini, hamburger gourmet, polpettoni ripieni e arrosti preparati giornalmente. Pronti da infornare per cene veloci e gustose.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CONTATTI -->
+    <section id="contatti" class="py-20 bg-charcoal text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-burgundy font-heading italic text-xl mb-2">Vieni a Trovarci</h3>
+                <h2 class="font-heading text-4xl font-bold">Contatti & Orari</h2>
+                <div class="w-24 h-1 bg-burgundy mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Info Contatti e Orari -->
+                <div class="space-y-8">
+                    <!-- Indirizzo -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-burgundy p-3 rounded-full mt-1">
+                            <i class="fas fa-map-marker-alt text-xl w-5 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading text-2xl font-bold mb-1">Indirizzo</h4>
+                            <p class="text-gray-300">Via Roma, 123<br>00100 Città (Provincia)</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Telefono -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-burgundy p-3 rounded-full mt-1">
+                            <i class="fas fa-phone text-xl w-5 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading text-2xl font-bold mb-1">Telefono</h4>
+                            <p class="text-gray-300"><a href="tel:+390123456789" class="hover:text-burgundy transition">+39 012 345 6789</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Orari -->
+                    <div class="flex items-start gap-4">
+                        <div class="bg-burgundy p-3 rounded-full mt-1">
+                            <i class="fas fa-clock text-xl w-5 text-center"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-heading text-2xl font-bold mb-1">Orari di Apertura</h4>
+                            <ul class="text-gray-300 space-y-1">
+                                <li class="flex justify-between border-b border-gray-700 pb-1 w-64">
+                                    <span>Lun - Sab:</span> <span>08:00 - 13:30</span>
+                                </li>
+                                <li class="flex justify-between border-b border-gray-700 py-1 w-64">
+                                    <span>Lun - Sab (Pom):</span> <span>16:30 - 20:00</span>
+                                </li>
+                                <li class="flex justify-between pt-1 w-64 text-burgundy font-bold">
+                                    <span>Domenica:</span> <span>Chiuso</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form di Contatto (Estetico/Placeholder per inserimento backend futuro) -->
+                <div class="bg-white text-charcoal p-8 rounded-lg shadow-xl">
+                    <h4 class="font-heading text-3xl font-bold mb-6 text-center">Inviaci un Messaggio</h4>
+                    <form action="#" method="POST" class="space-y-4">
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Nome e Cognome</label>
+                            <input type="text" id="nome" name="nome" placeholder="Mario Rossi" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-burgundy focus:border-burgundy outline-none transition" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" placeholder="mario@email.com" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-burgundy focus:border-burgundy outline-none transition" required>
+                        </div>
+                        <div>
+                            <label for="messaggio" class="block text-sm font-medium text-gray-700 mb-1">Richiesta (Ordini, Prenotazioni, Info)</label>
+                            <textarea id="messaggio" name="messaggio" rows="4" placeholder="Scrivi qui il tuo messaggio..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-burgundy focus:border-burgundy outline-none transition" required></textarea>
+                        </div>
+                        <button type="button" onclick="alert('Funzione di invio da collegare al tuo indirizzo email o server!')" class="w-full bg-burgundy text-white font-bold py-3 rounded-md hover:bg-red-800 transition shadow-lg text-lg">
+                            Invia Messaggio
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#1a1a1a] text-gray-400 py-8 text-center border-t-4 border-burgundy">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="font-heading text-2xl text-white mb-4">Macelleria Salumeria Vicarelli Vincenzo</h2>
+            <div class="flex justify-center space-x-4 mb-6">
+                <!-- Icone Social (Link da aggiungere) -->
+                <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p>&copy; 2023 Macelleria Vicarelli. Tutti i diritti riservati. P.IVA: 01234567890</p>
+            <p class="text-sm mt-2">Design personalizzabile.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script>
+        // Gestione Menu Mobile (Hamburger Menu)
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        // Apri/Chiudi menu cliccando l'icona
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Chiudi il menu mobile quando si clicca su un link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
