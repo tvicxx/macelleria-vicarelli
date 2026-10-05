@@ -254,7 +254,94 @@
         </div>
     </section>
 
-    <!-- 4. CONTATTI -->
+    <!-- 4. RECENSIONI -->
+    <!-- SEZIONE RECENSIONI DINAMICHE -->
+    <section id="recensioni" class="py-20 bg-cream">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h3 class="text-burgundy font-heading italic text-xl mb-2">Dicono di Noi</h3>
+                <h2 class="font-heading text-4xl font-bold text-charcoal">Le Recensioni dei Clienti</h2>
+                <div class="w-24 h-1 bg-burgundy mx-auto mt-4"></div>
+            </div>
+
+            <!-- Contenitore dove JavaScript inietterà le recensioni -->
+            <div id="recensioni-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Messaggio di caricamento di default -->
+                <div class="col-span-full text-center text-gray-500 py-8">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-4 text-burgundy"></i>
+                    <p>Caricamento delle recensioni da Google in corso...</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="https://www.google.com/maps/place/Macelleria+Salumeria+Vicarelli+Vincenzo" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 bg-white text-charcoal border-2 border-gray-300 px-6 py-3 rounded-full hover:border-burgundy hover:text-burgundy transition font-medium shadow-sm">
+                    <i class="fab fa-google text-red-500"></i>
+                    Leggi tutte le recensioni su Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script per recuperare le recensioni tramite Google Places API -->
+    <script>
+        function initGoogleReviews() {
+            // Un div invisibile richiesto da Google Maps per inizializzare il servizio
+            const dummyEl = document.createElement('div');
+            const service = new google.maps.places.PlacesService(dummyEl);
+
+            // INSERISCI QUI IL PLACE ID DELLA TUA ATTIVITÀ
+            const request = {
+                placeId: 'INSERISCI_QUI_IL_TUO_PLACE_ID', 
+                fields: ['reviews']
+            };
+
+            service.getDetails(request, (place, status) => {
+                const container = document.getElementById('recensioni-container');
+                
+                if (status === google.maps.places.PlacesServiceStatus.OK && place.reviews && place.reviews.length > 0) {
+                    container.innerHTML = ''; // Pulisce il messaggio di caricamento
+                    
+                    // Prende le prime 3 recensioni per mantenere la griglia allineata
+                    const topReviews = place.reviews.slice(0, 3);
+                    
+                    topReviews.forEach(review => {
+                        // Crea le stelline gialle dinamicamente
+                        const stars = '<i class="fas fa-star"></i>'.repeat(review.rating) + 
+                                      '<i class="far fa-star"></i>'.repeat(5 - review.rating);
+
+                        // Costruisce la card della recensione mantenendo il design Tailwind
+                        const reviewHTML = `
+                            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition relative">
+                                <div class="flex text-yellow-400 mb-4 text-sm">
+                                    ${stars}
+                                </div>
+                                <p class="text-gray-600 italic mb-6">"${review.text}"</p>
+                                <div class="flex items-center gap-3">
+                                    <img src="${review.profile_photo_url}" alt="Foto Profilo" class="w-10 h-10 rounded-full border border-gray-200">
+                                    <div>
+                                        <h4 class="font-bold text-charcoal text-sm">${review.author_name}</h4>
+                                        <span class="text-xs text-gray-500">${review.relative_time_description}</span>
+                                    </div>
+                                </div>
+                                <i class="fab fa-google absolute top-6 right-6 text-gray-300 text-xl"></i>
+                            </div>
+                        `;
+                        container.innerHTML += reviewHTML;
+                    });
+                } else {
+                    container.innerHTML = '<p class="col-span-full text-center text-red-500">Impossibile caricare le recensioni in questo momento.</p>';
+                }
+            });
+        }
+    </script>
+
+    <!-- INSERISCI LA TUA CHIAVE API QUI SOTTO -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=INSERISCI_LA_TUA_CHIAVE_API_QUI&libraries=places&callback=initGoogleReviews" async defer></script>
+
+    <!-- 5. CONTATTI -->
     <section id="contatti" class="py-20 bg-charcoal text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
@@ -312,20 +399,25 @@
                 </div>
 
                 <!-- Mappa-->
-                <div class="bg-white text-charcoal p-8 rounded-lg shadow-xl">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.70818470176!2d11.695677476781455!3d42.7720206089746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13293d5e4f6f31a1%3A0x3b93a0cd03dbdb3f!2sMacelleria%20Salumeria%20Vicarelli%20Vincenzo!5e1!3m2!1sit!2sit!4v1791050014858!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                <div class="bg-white text-charcoal p-4 md:p-8 rounded-lg shadow-xl w-full h-full flex flex-col">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.70818470176!2d11.695677476781455!3d42.7720206089746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13293d5e4f6f31a1%3A0x3b93a0cd03dbdb3f!2sMacelleria%20Salumeria%20Vicarelli%20Vincenzo!5e1!3m2!1sit!2sit!4v1791050014858!5m2!1sit!2sit" 
+                        class="w-full h-80 lg:h-full flex-grow rounded-md border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- FOOTER (il tuo footer esistente) -->
     <footer class="bg-[#1a1a1a] text-gray-400 py-8 text-center border-t-4 border-burgundy">
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="font-heading text-2xl text-white mb-4">Macelleria Salumeria Vicarelli Vincenzo</h2>
             <div class="flex justify-center space-x-4 mb-6">
-                <!-- Icone Social (Link da aggiungere) -->
                 <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-facebook"></i></a>
                 <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-instagram"></i></a>
                 <a href="#" class="text-gray-400 hover:text-white transition text-xl"><i class="fab fa-whatsapp"></i></a>
@@ -335,23 +427,71 @@
     </footer>
 
     <!-- SCRIPT JAVASCRIPT -->
+    
+    <!-- 1. Script per il Menu Mobile (che avevi già) -->
     <script>
-        // Gestione Menu Mobile (Hamburger Menu)
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        // Apri/Chiudi menu cliccando l'icona
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
         });
 
-        // Chiudi il menu mobile quando si clicca su un link
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
             });
         });
     </script>
+
+    <!-- 2. Script per recuperare le recensioni (che ti ho dato prima) -->
+    <script>
+        function initGoogleReviews() {
+            const dummyEl = document.createElement('div');
+            const service = new google.maps.places.PlacesService(dummyEl);
+
+            // INSERISCI QUI IL PLACE ID DELLA TUA ATTIVITÀ
+            const request = {
+                placeId: 'ChIJoTFvT149KRMRP9vbA82gkzs', 
+                fields: ['reviews']
+            };
+
+            service.getDetails(request, (place, status) => {
+                const container = document.getElementById('recensioni-container');
+                
+                if (status === google.maps.places.PlacesServiceStatus.OK && place.reviews && place.reviews.length > 0) {
+                    container.innerHTML = ''; 
+                    const topReviews = place.reviews.slice(0, 3);
+                    
+                    topReviews.forEach(review => {
+                        const stars = '<i class="fas fa-star"></i>'.repeat(review.rating) + 
+                                      '<i class="far fa-star"></i>'.repeat(5 - review.rating);
+
+                        const reviewHTML = `
+                            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition relative">
+                                <div class="flex text-yellow-400 mb-4 text-sm">${stars}</div>
+                                <p class="text-gray-600 italic mb-6">"${review.text}"</p>
+                                <div class="flex items-center gap-3">
+                                    <img src="${review.profile_photo_url}" alt="Foto Profilo" class="w-10 h-10 rounded-full border border-gray-200">
+                                    <div>
+                                        <h4 class="font-bold text-charcoal text-sm">${review.author_name}</h4>
+                                        <span class="text-xs text-gray-500">${review.relative_time_description}</span>
+                                    </div>
+                                </div>
+                                <i class="fab fa-google absolute top-6 right-6 text-gray-300 text-xl"></i>
+                            </div>
+                        `;
+                        container.innerHTML += reviewHTML;
+                    });
+                } else {
+                    container.innerHTML = '<p class="col-span-full text-center text-red-500">Impossibile caricare le recensioni in questo momento.</p>';
+                }
+            });
+        }
+    </script>
+
+    <!-- 3. SCRIPT DELLE API DI GOOGLE (mettilo come ULTIMA COSA prima di chiudere il body) -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=INSERISCI_LA_TUA_CHIAVE_API_QUI&libraries=places&callback=initGoogleReviews" async defer></script>
 </body>
 </html>
