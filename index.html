@@ -287,62 +287,6 @@
         </div>
     </section>
 
-    <!-- Script per recuperare le recensioni tramite Google Places API -->
-    <script>
-        function initGoogleReviews() {
-            // Un div invisibile richiesto da Google Maps per inizializzare il servizio
-            const dummyEl = document.createElement('div');
-            const service = new google.maps.places.PlacesService(dummyEl);
-
-            // INSERISCI QUI IL PLACE ID DELLA TUA ATTIVITÀ
-            const request = {
-                placeId: 'INSERISCI_QUI_IL_TUO_PLACE_ID', 
-                fields: ['reviews']
-            };
-
-            service.getDetails(request, (place, status) => {
-                const container = document.getElementById('recensioni-container');
-                
-                if (status === google.maps.places.PlacesServiceStatus.OK && place.reviews && place.reviews.length > 0) {
-                    container.innerHTML = ''; // Pulisce il messaggio di caricamento
-                    
-                    // Prende le prime 3 recensioni per mantenere la griglia allineata
-                    const topReviews = place.reviews.slice(0, 3);
-                    
-                    topReviews.forEach(review => {
-                        // Crea le stelline gialle dinamicamente
-                        const stars = '<i class="fas fa-star"></i>'.repeat(review.rating) + 
-                                      '<i class="far fa-star"></i>'.repeat(5 - review.rating);
-
-                        // Costruisce la card della recensione mantenendo il design Tailwind
-                        const reviewHTML = `
-                            <div class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition relative">
-                                <div class="flex text-yellow-400 mb-4 text-sm">
-                                    ${stars}
-                                </div>
-                                <p class="text-gray-600 italic mb-6">"${review.text}"</p>
-                                <div class="flex items-center gap-3">
-                                    <img src="${review.profile_photo_url}" alt="Foto Profilo" class="w-10 h-10 rounded-full border border-gray-200">
-                                    <div>
-                                        <h4 class="font-bold text-charcoal text-sm">${review.author_name}</h4>
-                                        <span class="text-xs text-gray-500">${review.relative_time_description}</span>
-                                    </div>
-                                </div>
-                                <i class="fab fa-google absolute top-6 right-6 text-gray-300 text-xl"></i>
-                            </div>
-                        `;
-                        container.innerHTML += reviewHTML;
-                    });
-                } else {
-                    container.innerHTML = '<p class="col-span-full text-center text-red-500">Impossibile caricare le recensioni in questo momento.</p>';
-                }
-            });
-        }
-    </script>
-
-    <!-- INSERISCI LA TUA CHIAVE API QUI SOTTO -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=INSERISCI_LA_TUA_CHIAVE_API_QUI&libraries=places&callback=initGoogleReviews" async defer></script>
-
     <!-- 5. CONTATTI -->
     <section id="contatti" class="py-20 bg-charcoal text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -494,6 +438,6 @@
     </script>
 
     <!-- 3. SCRIPT DELLE API DI GOOGLE (mettilo come ULTIMA COSA prima di chiudere il body) -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=INSERISCI_LA_TUA_CHIAVE_API_QUI&libraries=places&callback=initGoogleReviews" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_CY7MkwVyj77TxWPTTb-PABJgYixCQ1Y&libraries=places&callback=initGoogleReviews" async defer></script>
 </body>
 </html>
